@@ -346,9 +346,11 @@ body.dark, .dark .app {
   border-right: 1px solid var(--border-color);
   padding: var(--space-6);
   overflow-y: auto;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   gap: var(--space-8);
+  flex-shrink: 0;
 }
 
 .sidebar-section {
@@ -618,9 +620,11 @@ body.dark, .dark .app {
 .main-content {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   background: var(--bg-primary);
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 /* ============================================================================
@@ -713,6 +717,8 @@ body.dark, .dark .app {
   flex-direction: column;
   gap: var(--space-6);
   min-height: 100%;
+  overflow-y: auto;
+  padding-bottom: var(--space-6);
 }
 
 .question-header {
@@ -1011,16 +1017,21 @@ body.dark, .dark .app {
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   flex-wrap: wrap;
+  margin: var(--space-4) 0;
 }
 
 .question-actions.unified-actions button {
-  flex: 1 1 0;
-  min-width: 120px;
+  flex: 1 1 auto;
+  min-width: 100px;
   max-width: 200px;
   font-size: 1.1rem;
   border-radius: var(--radius-lg);
   box-shadow: 0 2px 8px 0 rgba(0,0,0,0.04);
   margin: 0;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .action-left {
@@ -1212,10 +1223,123 @@ html {
   outline-offset: 2px;
 }
 
+/* 通用文本和内容溢出处理 */
+.text-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.text-break {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.container-fit {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+/* 长标题处理 */
+.app-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 250px;
+}
+
+.bank-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.option-text {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.question-text h3 {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
 /* ============================================================================
    响应式设计 - 移动端适配
 ============================================================================ */
 
+/* 小桌面屏幕优化 */
+@media (max-width: 1200px) {
+  .sidebar {
+    width: 280px;
+  }
+  
+  .question-view {
+    padding: var(--space-5) var(--space-4);
+  }
+  
+  .welcome-screen {
+    padding: var(--space-8) var(--space-4);
+    max-width: 800px;
+  }
+}
+
+/* 平板屏幕适配 */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 260px;
+  }
+  
+  .header {
+    padding: 0 var(--space-5);
+  }
+  
+  .session-info {
+    gap: var(--space-4);
+  }
+  
+  .session-info span {
+    padding: var(--space-1) var(--space-2);
+    font-size: var(--text-xs);
+  }
+  
+  .question-content {
+    padding: var(--space-6);
+  }
+  
+  .question-actions.unified-actions {
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-5);
+  }
+  
+  .question-actions.unified-actions button {
+    min-width: 100px;
+    font-size: 1rem;
+  }
+}
+
+/* 中等屏幕适配 */
+@media (max-width: 900px) {
+  .header-center {
+    flex: 0.8;
+  }
+  
+  .session-info span {
+    display: none;
+  }
+  
+  .session-info span:first-child {
+    display: block;
+  }
+  
+  .sidebar {
+    width: 240px;
+  }
+}
+
+/* 小屏幕平板适配 */
 @media (max-width: 768px) {
   .app-body {
     flex-direction: column;
@@ -1223,19 +1347,46 @@ html {
   
   .sidebar {
     width: 100%;
-    max-height: 300px;
+    max-height: 280px;
     border-right: none;
     border-bottom: 1px solid var(--border-color);
     animation: slideInFromLeft 0.3s ease-out;
+    padding: var(--space-4);
+  }
+  
+  .sidebar-section {
+    gap: var(--space-3);
+  }
+  
+  .sidebar-section h3 {
+    font-size: var(--text-base);
   }
   
   .question-view {
     padding: var(--space-4);
   }
   
+  .question-content {
+    padding: var(--space-5);
+  }
+  
   .question-actions {
     flex-direction: column;
     gap: var(--space-3);
+  }
+  
+  .question-actions.unified-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    padding: var(--space-3);
+    margin: var(--space-3) 0;
+  }
+  
+  .question-actions.unified-actions button {
+    flex: 1 1 calc(50% - var(--space-1));
+    min-width: 0;
+    font-size: 0.9rem;
   }
   
   .action-left,
@@ -1251,28 +1402,287 @@ html {
   
   .welcome-info {
     grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+  
+  .info-card {
+    padding: var(--space-4);
   }
 }
 
-@media (max-width: 480px) {
+/* 大手机屏幕适配 */
+@media (max-width: 640px) {
   .header {
-    padding: 0 var(--space-4);
     height: 56px;
+    padding: 0 var(--space-4);
   }
   
   .header-center {
-    display: none; /* 在小屏幕上隐藏中间信息 */
+    display: none;
   }
   
   .app-title {
     font-size: var(--text-lg);
   }
   
-  .sidebar {
+  .question-header {
     padding: var(--space-4);
   }
   
+  .question-nav {
+    flex-direction: column;
+    gap: var(--space-2);
+    align-items: flex-start;
+  }
+  
+  .question-meta {
+    gap: var(--space-2);
+  }
+  
   .question-content {
-    padding: var(--space-5);
+    padding: var(--space-4);
+  }
+  
+  .question-text h3 {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-4);
+  }
+  
+  .options {
+    gap: var(--space-2);
+    margin: var(--space-4) 0;
+  }
+  
+  .option {
+    padding: var(--space-3) var(--space-4);
+  }
+  
+  .option-text {
+    font-size: var(--text-sm);
+  }
+  
+  .question-actions.unified-actions {
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-3);
+    margin: var(--space-3) 0;
+  }
+  
+  .question-actions.unified-actions button {
+    width: 100%;
+    min-width: 0;
+    flex: none;
+  }
+}
+
+/* 小手机屏幕适配 */
+@media (max-width: 480px) {
+  .header {
+    padding: 0 var(--space-3);
+    height: 52px;
+  }
+  
+  .app-title {
+    font-size: var(--text-base);
+  }
+  
+  .header-right .btn {
+    font-size: var(--text-xs);
+    padding: var(--space-2) var(--space-3);
+    min-height: 36px;
+  }
+  
+  .sidebar {
+    padding: var(--space-3);
+    max-height: 250px;
+  }
+  
+  .sidebar-section h3 {
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+  }
+  
+  .file-upload-label {
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--text-xs);
+  }
+  
+  .bank-item {
+    padding: var(--space-3);
+  }
+  
+  .bank-title {
+    font-size: var(--text-sm);
+  }
+  
+  .bank-details {
+    font-size: 0.7rem;
+  }
+  
+  .setting-group label {
+    font-size: var(--text-xs);
+  }
+  
+  .setting-group select,
+  .setting-group input[type="number"] {
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--text-xs);
+  }
+  
+  .question-view {
+    padding: var(--space-3);
+  }
+  
+  .question-header {
+    padding: var(--space-3);
+  }
+  
+  .question-content {
+    padding: var(--space-3);
+  }
+  
+  .question-text h3 {
+    font-size: var(--text-base);
+  }
+  
+  .option {
+    padding: var(--space-2) var(--space-3);
+  }
+  
+  .option-key {
+    width: 24px;
+    height: 24px;
+    font-size: var(--text-xs);
+  }
+  
+  .option-text {
+    font-size: var(--text-xs);
+  }
+  
+  .category,
+  .difficulty,
+  .score {
+    font-size: 0.7rem;
+    padding: 2px var(--space-2);
+  }
+  
+  .timer,
+  .question-counter {
+    font-size: var(--text-xs);
+  }
+  
+  .btn {
+    font-size: var(--text-xs);
+    padding: var(--space-2) var(--space-3);
+    min-height: 36px;
+  }
+  
+  .welcome-screen {
+    padding: var(--space-4) var(--space-3);
+  }
+  
+  .welcome-content h2 {
+    font-size: var(--text-xl);
+  }
+  
+  .info-card {
+    padding: var(--space-3);
+  }
+  
+  .info-card h3 {
+    font-size: var(--text-base);
+  }
+  
+  .info-card li {
+    font-size: var(--text-xs);
+  }
+}
+
+/* 极小屏幕适配 */
+@media (max-width: 360px) {
+  :root {
+    font-size: 14px;
+  }
+  
+  .app-title {
+    font-size: var(--text-sm);
+  }
+  
+  .header {
+    height: 48px;
+    padding: 0 var(--space-2);
+  }
+  
+  .sidebar {
+    padding: var(--space-2);
+    max-height: 200px;
+  }
+  
+  .question-view {
+    padding: var(--space-2);
+  }
+  
+  .question-header,
+  .question-content {
+    padding: var(--space-2);
+  }
+  
+  .question-nav {
+    gap: var(--space-1);
+  }
+  
+  .question-meta {
+    gap: var(--space-1);
+  }
+  
+  .options {
+    gap: var(--space-1);
+  }
+  
+  .option {
+    padding: var(--space-2);
+  }
+  
+  .question-actions.unified-actions {
+    padding: var(--space-2);
+    gap: var(--space-1);
+    margin: var(--space-2) 0;
+  }
+}
+
+/* 横屏手机适配 */
+@media (max-width: 896px) and (max-height: 414px) and (orientation: landscape) {
+  .app-body {
+    flex-direction: row;
+  }
+  
+  .sidebar {
+    width: 200px;
+    max-height: none;
+    border-right: 1px solid var(--border-color);
+    border-bottom: none;
+  }
+  
+  .question-view {
+    padding: var(--space-2);
+  }
+  
+  .question-header {
+    padding: var(--space-2);
+  }
+  
+  .question-content {
+    padding: var(--space-3);
+  }
+  
+  .question-actions.unified-actions {
+    flex-direction: row;
+    padding: var(--space-2);
+    margin: var(--space-2) 0;
+  }
+  
+  .question-actions.unified-actions button {
+    flex: 1;
+    min-width: 0;
   }
 }
