@@ -1,0 +1,154 @@
+{
+  "metadata": {
+    "title": "无线网络技术知识竞赛题库",
+    "description": "包含WiFi、蜂窝网络、协议标准等无线通信技术知识",
+    "subject": "无线网络技术",
+    "version": "1.0.0",
+    "createdAt": "2025-01-15T00:00:00Z",
+    "totalQuestions": 10,
+    "categories": ["WiFi技术", "蜂窝网络", "协议标准", "安全技术", "天线射频"],
+    "difficulties": ["easy", "medium", "hard"]
+  },
+  "questions": [
+    {
+      "id": "q001",
+      "type": "single-choice",
+      "category": "WiFi技术",
+      "difficulty": "easy",
+      "score": 2,
+      "question": "WiFi 6的标准名称是什么？",
+      "options": ["802.11ac", "802.11ax", "802.11n", "802.11g"],
+      "answer": "B",
+      "explanation": "WiFi 6对应的IEEE标准是802.11ax，于2019年发布"
+    },
+    {
+      "id": "q002",
+      "type": "multi-choice",
+      "category": "蜂窝网络",
+      "difficulty": "medium",
+      "score": 3,
+      "question": "5G网络相比4G的主要优势包括哪些？",
+      "options": ["更低延迟", "更高带宽", "更好的覆盖范围", "更多设备连接"],
+      "answer": ["A", "B", "D"],
+      "explanation": "5G具有低延迟(1ms)、高带宽(20Gbps)和海量连接能力，但覆盖范围相比4G并非优势"
+    },
+    {
+      "id": "q003",
+      "type": "true-false",
+      "category": "协议标准",
+      "difficulty": "easy", 
+      "score": 1,
+      "question": "蓝牙和WiFi都工作在2.4GHz频段",
+      "answer": true,
+      "explanation": "蓝牙工作在2.4GHz ISM频段，WiFi也可以工作在2.4GHz频段（同时支持5GHz）"
+    },
+    {
+      "id": "q004",
+      "type": "fill-blank",
+      "category": "WiFi技术",
+      "difficulty": "medium", 
+      "score": 3,
+      "question": "WiFi 6E在原有2.4GHz和5GHz基础上，新增了____GHz频段，可提供____个80MHz信道。",
+      "blanks": [
+        {
+          "index": 0,
+          "answer": "6",
+          "caseSensitive": false
+        },
+        {
+          "index": 1,
+          "answer": "7",
+          "caseSensitive": false
+        }
+      ],
+      "explanation": "WiFi 6E新增6GHz频段，提供更多可用信道，减少干扰"
+    },
+    {
+      "id": "q005",
+      "type": "essay",
+      "category": "安全技术",
+      "difficulty": "hard",
+      "score": 10,
+      "question": "请解释WPA3相比WPA2在安全性方面的主要改进，并说明其重要性。",
+      "answer": "WPA3主要改进包括：1）SAE握手机制替代PSK，防范离线字典攻击；2）个人数据保护，即使密码泄露也能保护历史数据；3）简化配置流程；4）更强的加密算法。这些改进显著提升了WiFi网络的安全防护能力。",
+      "keywords": ["SAE", "握手机制", "加密", "字典攻击", "数据保护"],
+      "minWords": 80,
+      "maxWords": 300,
+      "explanation": "需要展示对WPA3技术特点和安全优势的深入理解"
+    },
+    {
+      "id": "q006", 
+      "type": "single-choice",
+      "category": "天线射频",
+      "difficulty": "medium",
+      "score": 2,
+      "question": "MIMO技术中的'MU-MIMO'表示什么？",
+      "options": ["多输入多输出", "多用户多输入多输出", "多频段输入输出", "多模式输入输出"],
+      "answer": "B",
+      "explanation": "MU-MIMO是Multi-User MIMO，允许同时为多个用户提供服务，提高网络效率"
+    },
+    {
+      "id": "q007",
+      "type": "true-false", 
+      "category": "协议标准",
+      "difficulty": "medium",
+      "score": 2,
+      "question": "NR（New Radio）是5G的空中接口标准",
+      "answer": true,
+      "explanation": "NR是3GPP定义的5G新空中接口标准，区别于LTE的空中接口"
+    },
+    {
+      "id": "q008",
+      "type": "multi-choice",
+      "category": "蜂窝网络", 
+      "difficulty": "hard",
+      "score": 4,
+      "question": "5G网络切片技术可以支持哪些应用场景？",
+      "options": ["eMBB增强移动宽带", "URLLC超可靠低延迟", "mMTC海量机器通信", "IoT物联网应用"],
+      "answer": ["A", "B", "C"],
+      "explanation": "5G三大应用场景：eMBB、URLLC、mMTC。IoT是应用领域而非切片场景分类"
+    },
+    {
+      "id": "q009",
+      "type": "single-choice",
+      "category": "安全技术", 
+      "difficulty": "easy",
+      "score": 2,
+      "question": "以下哪种WiFi安全协议最不安全？",
+      "options": ["WPA3", "WPA2", "WEP", "开放网络"],
+      "answer": "C",
+      "explanation": "WEP协议存在严重安全漏洞，可在几分钟内被破解，现已弃用"
+    },
+    {
+      "id": "q010",
+      "type": "fill-blank",
+      "category": "天线射频",
+      "difficulty": "hard",
+      "score": 4, 
+      "question": "毫米波频段通常指____GHz到____GHz，其特点是传播距离____但数据速率____。",
+      "blanks": [
+        {
+          "index": 0,
+          "answer": "30",
+          "caseSensitive": false
+        },
+        {
+          "index": 1,
+          "answer": "300", 
+          "caseSensitive": false
+        },
+        {
+          "index": 2,
+          "answer": "短",
+          "caseSensitive": false
+        },
+        {
+          "index": 3,
+          "answer": "高",
+          "caseSensitive": false
+        }
+      ],
+      "explanation": "毫米波(30-300GHz)传播距离短但可提供极高数据速率，是5G关键技术"
+    }
+  ]
+}
