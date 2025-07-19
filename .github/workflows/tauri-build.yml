@@ -23,6 +23,10 @@ jobs:
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
 
+      - name: Add Windows target for Rust
+        if: matrix.platform == 'windows-latest'
+        run: rustup target add x86_64-pc-windows-msvc
+
       - name: Install dependencies
         run: npm install
 
