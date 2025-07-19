@@ -27,9 +27,9 @@
     "active": true,
     "targets": "all",
     "icon": [
-      "icons/logo.png",
-      "icons/logo.ico",
-      "icons/logo.icns"
+      "icons/icon.png",
+      "icons/icon.ico",
+      "icons/icon.icns"
     ]
   }
 }

@@ -1,10 +1,9 @@
-name: Build Tauri App (Windows & macOS)
+name: Build & Release Tauri App
 
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    tags:
+      - 'v*.*.*'
 
 jobs:
   build:
@@ -40,4 +39,13 @@ jobs:
         with:
           name: ${{ matrix.platform }}-build
           path: |
-            src-tauri/target/*/release/bundle/
+            src-tauri/target/*/release/bundle/**/*
+
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            src-tauri/target/*/release/bundle/**/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
