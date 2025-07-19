@@ -2,7 +2,7 @@ import React from 'react';
 import { useAppStore } from '../stores/appStore';
 
 export const Header: React.FC = () => {
-  const { currentSession, currentUser } = useAppStore();
+  const { currentSession } = useAppStore();
 
   return (
     <header className="header">
