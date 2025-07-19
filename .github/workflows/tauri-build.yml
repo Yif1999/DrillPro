@@ -42,7 +42,7 @@ jobs:
             src-tauri/target/*/release/bundle/**/*
 
       - name: Create Release
-        if: startsWith(github.ref, 'refs/tags/')
+        if: startsWith(github.ref, 'refs/tags/') && matrix.platform == 'windows-latest'
         uses: softprops/action-gh-release@v2
         with:
           files: |
