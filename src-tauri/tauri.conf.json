@@ -28,6 +28,7 @@
     "targets": "all",
     "icon": [
       "icons/logo.png",
+      "icons/logo.ico",
       "icons/logo.icns"
     ]
   }
