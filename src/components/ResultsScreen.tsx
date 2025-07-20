@@ -7,7 +7,6 @@ interface Props {
 }
 
 export const ResultsScreen: React.FC<Props> = ({ session }) => {
-  const { endPractice } = useAppStore();
 
   const startTime = new Date(session.startTime);
   const endTime = session.endTime ? new Date(session.endTime) : new Date();
