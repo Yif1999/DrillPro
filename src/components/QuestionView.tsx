@@ -5,6 +5,7 @@ import { MultiChoiceQuestion } from './questions/MultiChoiceQuestion';
 import { TrueFalseQuestion } from './questions/TrueFalseQuestion';
 import { FillBlankQuestion } from './questions/FillBlankQuestion';
 import { EssayQuestion } from './questions/EssayQuestion';
+import { ConfirmDialog } from './ConfirmDialog';
 
 export const QuestionView: React.FC = () => {
   const {
@@ -14,6 +15,8 @@ export const QuestionView: React.FC = () => {
     submitAnswer,
     nextQuestion,
     previousQuestion,
+    practiceMode,
+    deleteCurrentWrongQuestion,
     toggleAnswerDisplay
   } = useAppStore();
 
@@ -21,6 +24,7 @@ export const QuestionView: React.FC = () => {
   const [timeSpent, setTimeSpent] = useState(0);
   const [startTime, setStartTime] = useState<number>(Date.now());
   const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [isConfirmOpen, setConfirmOpen] = useState(false);
 
   const currentQuestion = currentQuestions[currentQuestionIndex];
 
@@ -57,11 +61,30 @@ export const QuestionView: React.FC = () => {
   };
 
   const handleNext = () => {
+    if (userAnswer !== null && !hasSubmitted) {
+      submitAnswer(userAnswer, timeSpent);
+    }
     nextQuestion();
   };
 
   const handlePrevious = () => {
+    if (userAnswer !== null && !hasSubmitted) {
+      submitAnswer(userAnswer, timeSpent);
+    }
     previousQuestion();
+  };
+
+  const handleRemoveClick = () => {
+    setConfirmOpen(true);
+  };
+
+  const handleConfirmRemove = () => {
+    deleteCurrentWrongQuestion();
+    setConfirmOpen(false);
+  };
+
+  const handleCancelRemove = () => {
+    setConfirmOpen(false);
   };
 
   const renderQuestionComponent = () => {
@@ -132,10 +155,19 @@ export const QuestionView: React.FC = () => {
         )}
         {!showAnswer && (
           <button
-            onClick={toggleAnswerDisplay}
-            className="btn btn-outline"
+          onClick={toggleAnswerDisplay}
+          className="btn btn-outline"
           >
-            查看答案
+          查看答案
+          </button>
+          )}
+          {practiceMode === 'review' && (
+          <button
+            onClick={handleRemoveClick}
+            className="btn btn-outline"
+            style={{ position: 'relative', zIndex: 10 }}
+          >
+            移出错题本
           </button>
         )}
         <button
@@ -146,6 +178,14 @@ export const QuestionView: React.FC = () => {
           下一题
         </button>
       </div>
+
+      <ConfirmDialog
+        open={isConfirmOpen}
+        title="移出错题本"
+        message="确定要将这道题从错题本中永久移除吗？"
+        onConfirm={handleConfirmRemove}
+        onCancel={handleCancelRemove}
+      />
     </div>
   );
 };

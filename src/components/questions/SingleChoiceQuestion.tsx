@@ -25,39 +25,49 @@ export const SingleChoiceQuestion: React.FC<Props> = ({
       </div>
 
       <div className="options">
-        {question.options.map((option, index) => {
-          const optionKey = options[index];
-          const isSelected = userAnswer === optionKey;
-          const isCorrect = question.answer === optionKey;
-          
-          let className = 'option';
-          if (showAnswer) {
-            if (isCorrect) {
-              className += ' correct';
-            } else if (isSelected && !isCorrect) {
-              className += ' wrong';
-            }
-          } else if (isSelected) {
-            className += ' selected';
-          }
+        {Array.isArray(question.options) ? (
+          question.options.map((option, index) => {
+            const optionKey = options[index];
+            const isSelected = userAnswer === optionKey;
+            const isCorrect = question.answer === optionKey;
 
-          return (
-            <div key={optionKey} className={className}>
-              <label>
-                <input
-                  type="radio"
-                  name="singleChoice"
-                  value={optionKey}
-                  checked={isSelected}
-                  onChange={(e) => onAnswerChange(e.target.value)}
-                  disabled={disabled}
-                />
-                <span className="option-key">{optionKey}</span>
-                <span className="option-text">{option}</span>
-              </label>
-            </div>
-          );
-        })}
+            let className = 'option';
+            if (showAnswer) {
+              if (isCorrect) {
+                className += ' correct';
+              } else if (isSelected && !isCorrect) {
+                className += ' wrong';
+              }
+            } else if (isSelected) {
+              className += ' selected';
+            }
+
+            return (
+              <div
+                key={optionKey}
+                className={className}
+                onClick={() => !disabled && onAnswerChange(optionKey)}
+              >
+                <div className="option-content">
+                  <input
+                    type="radio"
+                    name="singleChoice"
+                    value={optionKey}
+                    checked={isSelected}
+                    onChange={() => {}}
+                    disabled={disabled}
+                  />
+                  <span className="option-key">{optionKey}</span>
+                  <span className="option-text">{option}</span>
+                </div>
+              </div>
+            );
+          })
+        ) : (
+          <div className="error-message">
+            错误：此题目 (ID: {question.id}) 的选项数据丢失或格式不正确。
+          </div>
+        )}
       </div>
 
       {showAnswer && question.explanation && (

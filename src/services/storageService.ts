@@ -233,4 +233,19 @@ export class StorageService {
       throw new Error('导入数据失败，请检查文件格式');
     }
   }
+
+  /**
+   * Deletes a specific wrong question record for a user.
+   */
+  public deleteWrongQuestion(userId: string, questionId: string): void {
+    const wrongQuestions = this.getWrongQuestions();
+    const key = `${userId}_${questionId}`;
+    if (wrongQuestions[key]) {
+      delete wrongQuestions[key];
+      localStorage.setItem(StorageService.KEYS.WRONG_QUESTIONS, JSON.stringify(wrongQuestions));
+      console.log(`Wrong question ${questionId} for user ${userId} deleted.`);
+    } else {
+      console.warn(`Wrong question ${questionId} for user ${userId} not found.`);
+    }
+  }
 }

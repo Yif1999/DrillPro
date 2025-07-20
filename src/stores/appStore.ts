@@ -23,6 +23,7 @@ interface AppState {
   // Actions
   initializeApp: () => Promise<void>;
   loadQuestionBank: (file: File) => Promise<void>;
+  deleteQuestionBank: (bankId: string) => void;
   startPractice: (bankId: string, config: PracticeConfig) => void;
   submitAnswer: (answer: any, timeSpent: number) => void;
   nextQuestion: () => void;
@@ -31,6 +32,7 @@ interface AppState {
   toggleAnswerDisplay: () => void;
   setCurrentUser: (userId: string) => void;
   startWrongQuestionsPractice: () => void;
+  deleteCurrentWrongQuestion: () => void;
 }
 
 export const useAppStore = create<AppState>((set, get) => {
@@ -120,6 +122,30 @@ export const useAppStore = create<AppState>((set, get) => {
       set({ isLoading: false });
     }
   },
+
+  // 删除题库
+  deleteQuestionBank: (bankId: string) => {
+    const { questionService, storageService } = get();
+    
+    try {
+      // 从存储中删除题库
+      storageService.deleteQuestionBank(bankId);
+      
+      // 从服务中删除题库
+      questionService.deleteQuestionBank(bankId);
+      
+      // 更新状态
+      const newBanks = new Map(get().questionBanks);
+      newBanks.delete(bankId);
+      set({ questionBanks: newBanks });
+      
+    } catch (error) {
+      console.error('删除题库失败:', error);
+      throw error;
+    }
+  },
+
+  
 
   // 开始练习
   startPractice: (bankId: string, config: PracticeConfig) => {
@@ -254,12 +280,34 @@ export const useAppStore = create<AppState>((set, get) => {
         currentQuestions: wrongQuestions,
         currentQuestionIndex: 0,
         showAnswer: false,
-        practiceMode: 'practice'
+        practiceMode: 'review'
       });
       
     } catch (error) {
       console.error('开始错题重做失败:', error);
       throw error;
+    }
+  },
+
+  deleteCurrentWrongQuestion: () => {
+    const { questionService, currentUser, currentQuestions, currentQuestionIndex, endPractice } = get();
+    
+    const questionToDelete = currentQuestions[currentQuestionIndex];
+    if (!questionToDelete) return;
+
+    // Assuming questionService has this method from user's manual edit
+    questionService.deleteUserWrongQuestion(currentUser, questionToDelete.id);
+
+    const updatedQuestions = currentQuestions.filter(q => q.id !== questionToDelete.id);
+
+    if (updatedQuestions.length === 0) {
+      endPractice();
+    } else {
+      const newIndex = Math.min(currentQuestionIndex, updatedQuestions.length - 1);
+      set({
+        currentQuestions: updatedQuestions,
+        currentQuestionIndex: newIndex,
+      });
     }
   }
 }});

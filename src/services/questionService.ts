@@ -18,6 +18,13 @@ export class QuestionService {
   }
 
   /**
+   * 删除题库
+   */
+  deleteQuestionBank(bankId: string): void {
+    this.questionBanks.delete(bankId);
+  }
+
+  /**
    * 获取题库列表
    */
   getQuestionBanks(): Map<string, QuestionBank> {
@@ -325,5 +332,15 @@ export class QuestionService {
     });
 
     return questions;
+  }
+
+  /**
+   * Deletes a wrong question for a specific user.
+   */
+  public async deleteUserWrongQuestion(userId: string, questionId: string): Promise<void> {
+    this.storageService.deleteWrongQuestion(userId, questionId);
+    console.log(`Question ${questionId} deleted from wrong questions for user ${userId}.`);
+    // Optionally, you might want to refresh the list of wrong questions in the store
+    // if the app state directly depends on a cached list in questionService.
   }
 }

@@ -44,14 +44,19 @@ export const TrueFalseQuestion: React.FC<Props> = ({
           return (
             <div key={String(value)} className={className}>
               <label>
-                <input
-                  type="radio"
-                  name="trueFalse"
-                  checked={isSelected}
-                  onChange={() => onAnswerChange(value)}
-                  disabled={disabled}
-                />
-                <span className="option-text">{label}</span>
+                <div className="option-content">
+                  <input
+                    type="radio"
+                    name="trueFalse"
+                    checked={isSelected}
+                    onChange={() => {
+                      console.log(`[TrueFalseQuestion] Click event fired. Value: ${value}`);
+                      onAnswerChange(value);
+                    }}
+                    disabled={disabled}
+                  />
+                  <span className="option-text">{label}</span>
+                </div>
               </label>
             </div>
           );

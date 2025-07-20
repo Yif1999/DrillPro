@@ -93,13 +93,6 @@ export const ResultsScreen: React.FC<Props> = ({ session }) => {
         >
           重新开始
         </button>
-        
-        <button 
-          className="btn btn-secondary"
-          onClick={endPractice}
-        >
-          返回主页
-        </button>
 
         <button 
           className="btn btn-outline"

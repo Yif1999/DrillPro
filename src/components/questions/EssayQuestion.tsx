@@ -27,7 +27,12 @@ export const EssayQuestion: React.FC<Props> = ({
     setText(e.target.value);
   };
 
-  const wordCount = text.trim().split(/\s+/).filter(word => word.length > 0).length;
+  // 判断是否为中文字符
+  const isChinese = (str: string) => /[\u4e00-\u9fa5]/.test(str);
+
+  const wordCount = isChinese(text)
+    ? text.replace(/\s/g, '').length // 中文按字符数统计，去除空白
+    : text.trim().split(/\s+/).filter(word => word.length > 0).length; // 其他按单词数
 
   return (
     <div className="essay-question">

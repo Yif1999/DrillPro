@@ -54,18 +54,22 @@ export const MultiChoiceQuestion: React.FC<Props> = ({
           }
 
           return (
-            <div key={optionKey} className={className}>
-              <label>
+            <div
+              key={optionKey}
+              className={className}
+              onClick={() => handleOptionChange(optionKey)}
+            >
+              <div className="option-content">
                 <input
                   type="checkbox"
                   value={optionKey}
                   checked={isSelected}
-                  onChange={() => handleOptionChange(optionKey)}
+                  onChange={() => {}}
                   disabled={disabled}
                 />
                 <span className="option-key">{optionKey}</span>
                 <span className="option-text">{option}</span>
-              </label>
+              </div>
             </div>
           );
         })}
