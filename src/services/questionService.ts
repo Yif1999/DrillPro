@@ -42,6 +42,16 @@ export class QuestionService {
 
     let questions = [...bank.questions];
 
+    // 按题型筛选
+    if (config.mode === 'type' && config.questionType) {
+      questions = questions.filter(q => q.type === config.questionType);
+    }
+
+    // 按题型筛选
+    if (config.mode === 'type' && config.questionType) {
+      questions = questions.filter(q => q.type === config.questionType);
+    }
+
     // 按分类筛选
     if (config.categories && config.categories.length > 0) {
       questions = questions.filter(q => 

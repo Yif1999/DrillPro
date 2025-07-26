@@ -110,11 +110,12 @@ export interface AnswerSession {
 }
 
 // 练习模式
-export type PracticeMode = 'sequential' | 'random' | 'category' | 'difficulty' | 'wrong-questions';
+export type PracticeMode = 'sequential' | 'random' | 'category' | 'difficulty' | 'wrong-questions' | 'type';
 
 // 练习配置
 export interface PracticeConfig {
   mode: PracticeMode;
+  questionType?: QuestionType;
   questionCount?: number;
   categories?: string[];
   difficulties?: Difficulty[];
